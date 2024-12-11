@@ -1,0 +1,24 @@
+{
+    "name": "websitev3",
+    "type": "module",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "astro": "astro",
+        "format": "npx prettier . --write --ignore-unknown"
+    },
+    "dependencies": {
+        "@astrojs/db": "^0.14.3",
+        "@astrojs/node": "^9.0.0",
+        "@astrojs/solid-js": "^5.0.0",
+        "@node-rs/bcrypt": "^1.10.7",
+        "astro": "^5.0.5",
+        "solid-js": "^1.9.3"
+    },
+    "devDependencies": {
+        "prettier": "^3.4.2",
+        "prettier-plugin-astro": "^0.14.1"
+    }
+}

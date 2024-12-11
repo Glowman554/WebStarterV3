@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Astro Basics</title>
+    </head>
+    <body>
+        <main>
+            <slot />
+        </main>
+    </body>
+</html>
+
+<style is:global>
+    html,
+    body {
+        margin: 0;
+        background-color: #ffffff;
+        color: #000000;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    h3 {
+        font-size: 24px;
+    }
+
+    h4 {
+        font-size: 22px;
+    }
+
+    h5 {
+        font-size: 22px;
+    }
+
+    h6 {
+        font-size: 22px;
+    }
+
+    * {
+        font-family: 'Barlow', Sans-serif;
+        font-size: 22px;
+        font-weight: 300;
+        margin: 0;
+    }
+
+    a {
+        color: inherit;
+    }
+
+    .field {
+        background-color: #b8b8b8ff;
+        padding: 1rem;
+        border-radius: 16px;
+    }
+    .section {
+        display: flex;
+        justify-content: space-between;
+        margin: 1rem;
+    }
+
+    .section-small {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .section-small:hover {
+        background-color: grey;
+    }
+
+    .center {
+        display: flex;
+        justify-content: center;
+    }
+
+    main {
+        margin: auto;
+        width: 70%;
+        padding: 10px;
+    }
+
+    @media screen and (max-width: 600px) {
+        main {
+            margin: auto;
+            width: 90%;
+            padding: 10px;
+        }
+    }
+</style>
