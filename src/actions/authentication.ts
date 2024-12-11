@@ -1,10 +1,12 @@
 import { compareSync, hashSync } from '@node-rs/bcrypt';
 import { defineAction, type ActionAPIContext } from 'astro:actions';
-import { db, eq, Sessions, Users } from 'astro:db';
 import { z } from 'astro:schema';
 import { passwordOk, validatePassword } from '../lib/password';
+import { eq, type InferSelectModel } from 'drizzle-orm';
+import { sessions, users } from '../database/schema';
+import { db } from '../database/database';
 
-export type User = Omit<typeof Users.$inferSelect, 'passwordHash'>;
+export type User = Omit<InferSelectModel<typeof users>, 'passwordHash'>;
 
 function getToken(context: ActionAPIContext) {
     const cookie = context.cookies.get('token');
@@ -30,7 +32,7 @@ function createRandomToken() {
 
 async function createSession(username: string) {
     const token = createRandomToken();
-    await db.insert(Sessions).values({ token, username });
+    await db.insert(sessions).values({ token, username });
     return token;
 }
 
@@ -42,12 +44,12 @@ export async function authenticate(context: ActionAPIContext) {
 
     const user = await db
         .select({
-            username: Users.username,
-            administrator: Users.administrator,
+            username: users.username,
+            administrator: users.administrator,
         })
-        .from(Sessions)
-        .where(eq(Sessions.token, token))
-        .innerJoin(Users, eq(Sessions.username, Users.username))
+        .from(sessions)
+        .where(eq(sessions.token, token))
+        .innerJoin(users, eq(sessions.username, users.username))
         .get();
     return user satisfies User | undefined;
 }
@@ -75,7 +77,7 @@ export const authentication = {
     login: defineAction({
         input: z.object({ username: z.string(), password: z.string() }),
         async handler(input, context) {
-            const user = await db.select().from(Users).where(eq(Users.username, input.username)).get();
+            const user = await db.select().from(users).where(eq(users.username, input.username)).get();
             if (!user || !compareSync(input.password, user.passwordHash)) {
                 throw new Error('Invalid username or password');
             }
@@ -95,9 +97,9 @@ export const authentication = {
             }
 
             const loaded = await db
-                .select({ passwordHash: Users.passwordHash })
-                .from(Users)
-                .where(eq(Users.username, user.username))
+                .select({ passwordHash: users.passwordHash })
+                .from(users)
+                .where(eq(users.username, user.username))
                 .get();
 
             if (!compareSync(input.oldPassword, loaded!.passwordHash)) {
@@ -105,11 +107,11 @@ export const authentication = {
             }
 
             await db
-                .update(Users)
+                .update(users)
                 .set({ passwordHash: hashSync(input.newPassword) })
-                .where(eq(Users.username, user.username));
+                .where(eq(users.username, user.username));
 
-            await db.delete(Sessions).where(eq(Sessions.username, user.username));
+            await db.delete(sessions).where(eq(sessions.username, user.username));
         },
     }),
 };
