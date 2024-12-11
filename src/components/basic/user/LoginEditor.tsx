@@ -39,9 +39,7 @@ function Wrapped(props: Props) {
 export default function (props: Props) {
     return (
         <Loading initial={false}>
-            <div class="field">
-                <Wrapped {...props} />
-            </div>
+            <Wrapped {...props} />
         </Loading>
     );
 }

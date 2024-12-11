@@ -1,14 +1,12 @@
-import { createContext, Show, useContext, type JSX } from 'solid-js';
+import { Show, useContext, type JSX } from 'solid-js';
 import type { User } from '../../actions/authentication';
 import { QueryContext } from './query/QueryController';
 import Query, { withQuery } from './query/Query';
 import { actions } from 'astro:actions';
 import LoginEditor from './user/LoginEditor';
-
-export const SelfContext = createContext<User>();
+import Overlay from './generic/Overlay';
 
 export interface Props {
-    children: JSX.Element;
     check: (u: User) => boolean;
 }
 
@@ -18,34 +16,29 @@ export default function (props: Props) {
     return (
         <Query f={() => actions.authentication.status.orThrow()} queryKey="internal-status">
             {(user) => (
-                <Show
-                    when={user && props.check(user)}
-                    fallback={
-                        <>
-                            <p>Du kannst auf diese Seite nicht zugreifen</p>
-                            <Show when={!user}>
-                                <LoginEditor
-                                    submit={(username, password, loading) =>
-                                        withQuery(
-                                            () =>
-                                                actions.authentication.login.orThrow({
-                                                    username,
-                                                    password,
-                                                }),
-                                            loading,
-                                            false,
-                                            () => {
-                                                query.refetch('internal-status');
-                                            }
-                                        )
-                                    }
-                                />
-                            </Show>
-                        </>
-                    }
-                >
-                    <SelfContext.Provider value={user}>{props.children}</SelfContext.Provider>
-                </Show>
+                <Overlay visible={!(user && props.check(user))}>
+                    <div class="field">
+                        <p>Du kannst auf diese Seite nicht zugreifen</p>
+                        <Show when={!user}>
+                            <LoginEditor
+                                submit={(username, password, loading) =>
+                                    withQuery(
+                                        () =>
+                                            actions.authentication.login.orThrow({
+                                                username,
+                                                password,
+                                            }),
+                                        loading,
+                                        false,
+                                        () => {
+                                            query.refetch('internal-status');
+                                        }
+                                    )
+                                }
+                            />
+                        </Show>
+                    </div>
+                </Overlay>
             )}
         </Query>
     );
