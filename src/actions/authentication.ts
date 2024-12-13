@@ -3,10 +3,10 @@ import { defineAction, type ActionAPIContext } from 'astro:actions';
 import { z } from 'astro:schema';
 import { passwordOk, validatePassword } from '../lib/password';
 import { eq, type InferSelectModel } from 'drizzle-orm';
-import { sessions, users } from '../database/schema';
+import { Sessions, Users } from '../database/schema';
 import { db } from '../database/database';
 
-export type User = Omit<InferSelectModel<typeof users>, 'passwordHash'>;
+export type User = Omit<InferSelectModel<typeof Users>, 'passwordHash'>;
 
 function getToken(context: ActionAPIContext) {
     const cookie = context.cookies.get('token');
@@ -17,7 +17,7 @@ function getToken(context: ActionAPIContext) {
 }
 
 function setToken(context: ActionAPIContext, token: string) {
-    context.cookies.set('token', token);
+    context.cookies.set('token', token, { path: '/' });
 }
 function createRandomToken() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -32,7 +32,7 @@ function createRandomToken() {
 
 async function createSession(username: string) {
     const token = createRandomToken();
-    await db.insert(sessions).values({ token, username });
+    await db.insert(Sessions).values({ token, username });
     return token;
 }
 
@@ -44,12 +44,12 @@ export async function authenticate(context: ActionAPIContext) {
 
     const user = await db
         .select({
-            username: users.username,
-            administrator: users.administrator,
+            username: Users.username,
+            administrator: Users.administrator,
         })
-        .from(sessions)
-        .where(eq(sessions.token, token))
-        .innerJoin(users, eq(sessions.username, users.username))
+        .from(Sessions)
+        .where(eq(Sessions.token, token))
+        .innerJoin(Users, eq(Sessions.username, Users.username))
         .get();
     return user satisfies User | undefined;
 }
@@ -77,7 +77,7 @@ export const authentication = {
     login: defineAction({
         input: z.object({ username: z.string(), password: z.string() }),
         async handler(input, context) {
-            const user = await db.select().from(users).where(eq(users.username, input.username)).get();
+            const user = await db.select().from(Users).where(eq(Users.username, input.username)).get();
             if (!user || !compareSync(input.password, user.passwordHash)) {
                 throw new Error('Invalid username or password');
             }
@@ -97,9 +97,9 @@ export const authentication = {
             }
 
             const loaded = await db
-                .select({ passwordHash: users.passwordHash })
-                .from(users)
-                .where(eq(users.username, user.username))
+                .select({ passwordHash: Users.passwordHash })
+                .from(Users)
+                .where(eq(Users.username, user.username))
                 .get();
 
             if (!compareSync(input.oldPassword, loaded!.passwordHash)) {
@@ -107,11 +107,11 @@ export const authentication = {
             }
 
             await db
-                .update(users)
+                .update(Users)
                 .set({ passwordHash: hashSync(input.newPassword) })
-                .where(eq(users.username, user.username));
+                .where(eq(Users.username, user.username));
 
-            await db.delete(sessions).where(eq(sessions.username, user.username));
+            await db.delete(Sessions).where(eq(Sessions.username, user.username));
         },
     }),
 };

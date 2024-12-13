@@ -9,6 +9,6 @@ export const client = createClient({ ...config.database });
 export const db = drizzle(client, { schema });
 
 await db
-    .insert(schema.users)
+    .insert(schema.Users)
     .values({ username: 'admin', administrator: true, passwordHash: hashSync('admin') })
     .onConflictDoNothing();

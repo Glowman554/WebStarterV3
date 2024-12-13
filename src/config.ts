@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { readFileSync } from 'fs';
-import { ZodSchema } from 'zod';
+import { type ZodSchema } from 'zod';
 
 export function validateOrThrow<T>(schema: ZodSchema<T>, data: unknown): T {
     const result = schema.safeParse(data);
