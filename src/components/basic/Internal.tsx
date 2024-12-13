@@ -18,7 +18,7 @@ export default function (props: Props) {
             {(user) => (
                 <Overlay visible={!(user && props.check(user))}>
                     <div class="field">
-                        <p>Du kannst auf diese Seite nicht zugreifen</p>
+                        <p>You can't access this page</p>
                         <Show when={!user}>
                             <LoginEditor
                                 submit={(username, password, loading) =>

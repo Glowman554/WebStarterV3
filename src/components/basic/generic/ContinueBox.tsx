@@ -22,7 +22,7 @@ export default function (props: Props) {
                             props.continueCallback();
                         }}
                     >
-                        Weiter
+                        Continue
                     </button>
                     <button
                         style={{ width: '40%' }}
@@ -31,7 +31,7 @@ export default function (props: Props) {
                             props.cancelCallback();
                         }}
                     >
-                        Abbrechen
+                        Cancel
                     </button>
                 </div>
             </div>

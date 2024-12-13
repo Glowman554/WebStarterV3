@@ -20,7 +20,7 @@ export default function <T>(props: Props<T>) {
                 cancelCallback={() => {}}
                 continueCallback={() => props.callback(props.id, loading)}
             >
-                Wollen sie das Element wirklich löschen?
+                Continue deleting the element?
             </ContinueBox>
         </>
     );

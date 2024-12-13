@@ -22,15 +22,15 @@ function Wrapped(props: Props) {
             }}
         >
             <div class="section">
-                Benutzername
+                Username
                 <input type="text" onChange={(e) => setEmail(e.target.value)} value={email()} required />
             </div>
             <div class="section">
-                Passwort
+                Password
                 <input type="password" onChange={(e) => setPassword(e.target.value)} value={password()} required />
             </div>
             <div class="center">
-                <button type="submit">Anmelden</button>
+                <button type="submit">Login</button>
             </div>
         </form>
     );

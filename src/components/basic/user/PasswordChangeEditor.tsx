@@ -9,10 +9,10 @@ export interface Props {
 function PasswordValidationResult(props: PasswordResult) {
     return (
         <>
-            <p>Password muss enthalten:</p>
-            <p style={{ color: props.length ? 'green' : 'red' }}>Mindestens 8 Zeichen</p>
-            <p style={{ color: props.upperCase ? 'green' : 'red' }}>Mindestens ein Großbuchstabe</p>
-            <p style={{ color: props.specialChar ? 'green' : 'red' }}>Mindestens ein Sonderzeichen</p>
+            <p>Password must contain:</p>
+            <p style={{ color: props.length ? 'green' : 'red' }}>At least 8 characters</p>
+            <p style={{ color: props.upperCase ? 'green' : 'red' }}>At least one upper case character</p>
+            <p style={{ color: props.specialChar ? 'green' : 'red' }}>At least one special character</p>
         </>
     );
 }
@@ -49,7 +49,7 @@ function Wrapped(props: Props) {
             }}
         >
             <div class="section">
-                Altes Passwort
+                Old password
                 <input
                     type="password"
                     value={oldPassword()}
@@ -59,12 +59,12 @@ function Wrapped(props: Props) {
             </div>
 
             <div class="section">
-                Neues Passwort
+                New password
                 <input type="password" value={newPassword()} onInput={(e) => setNewPassword(e.target.value)} required />
             </div>
 
             <div class="section">
-                Neues Passwort wiederhole
+                Repeat new password
                 <input
                     type="password"
                     value={newPasswordControl()}
@@ -78,12 +78,12 @@ function Wrapped(props: Props) {
             </Show>
             <br />
             <Show when={newPassword() != newPasswordControl()}>
-                <p style={{ color: 'red' }}>Passwörter stimmen nicht überein</p>
+                <p style={{ color: 'red' }}>Passwords do not match</p>
             </Show>
 
             <div class="center">
                 <button type="submit" disabled={!passwordOk(passwordResult()) || newPassword() != newPasswordControl()}>
-                    Aktualisieren
+                    Change
                 </button>
             </div>
         </form>
