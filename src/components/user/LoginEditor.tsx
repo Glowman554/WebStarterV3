@@ -1,5 +1,5 @@
+import Loading, { LoadingContext, type LoadingInterface } from '@glowman554/base-components/src/loading/Loading';
 import { createSignal, useContext } from 'solid-js';
-import Loading, { LoadingContext, type LoadingInterface } from '../loading/Loading';
 
 export interface Props {
     submit: (username: string, password: string, loading: LoadingInterface) => void;

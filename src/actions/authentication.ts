@@ -1,7 +1,7 @@
 import { compareSync, hashSync } from '@node-rs/bcrypt';
 import { defineAction, type ActionAPIContext } from 'astro:actions';
 import { z } from 'astro:schema';
-import { passwordOk, validatePassword } from '../lib/password';
+import { passwordOk, validatePassword } from '../shared/password';
 import { eq, type InferSelectModel } from 'drizzle-orm';
 import { Sessions, Users } from '../database/schema';
 import { db } from '../database/database';

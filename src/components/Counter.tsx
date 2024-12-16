@@ -1,6 +1,6 @@
 import { createSignal, type JSX } from 'solid-js';
-import Internal from './basic/Internal';
-import QueryController from './basic/query/QueryController';
+import Internal from './user/Internal';
+import QueryController from '@glowman554/base-components/src/query/QueryController';
 
 export default function Counter(props: { children?: JSX.Element }) {
     const [count, setCount] = createSignal(0);

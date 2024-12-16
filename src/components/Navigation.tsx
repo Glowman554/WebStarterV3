@@ -1,12 +1,9 @@
-import Navigation, { Entry } from './basic/generic/Navigation';
+import Navigation, { Entry } from '@glowman554/base-components/src/generic/Navigation';
 
 export default function () {
     return (
-        <>
-            <Navigation>
-                <Entry href="/">Home</Entry>
-            </Navigation>
-            <div style={{ 'padding-top': '4rem' }} />
-        </>
+        <Navigation>
+            <Entry href="/">Home</Entry>
+        </Navigation>
     );
 }

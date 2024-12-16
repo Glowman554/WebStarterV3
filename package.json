@@ -16,6 +16,7 @@
     "dependencies": {
         "@astrojs/node": "^9.0.0",
         "@astrojs/solid-js": "^5.0.0",
+        "@glowman554/base-components": "^1.0.4",
         "@libsql/client": "^0.14.0",
         "@node-rs/bcrypt": "^1.10.7",
         "astro": "^5.0.5",

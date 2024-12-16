@@ -1,6 +1,6 @@
 import { createEffect, createSignal, Show, useContext } from 'solid-js';
-import Loading, { LoadingContext, type LoadingInterface } from '../loading/Loading';
-import { passwordOk, validatePassword, type PasswordResult } from '../../../lib/password';
+import { passwordOk, validatePassword, type PasswordResult } from '../../shared/password';
+import Loading, { LoadingContext, type LoadingInterface } from '@glowman554/base-components/src/loading/Loading';
 
 export interface Props {
     submit: (oldPassword: string, newPassword: string, loading: LoadingInterface) => void;

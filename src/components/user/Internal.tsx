@@ -1,10 +1,10 @@
 import { Show, useContext, type JSX } from 'solid-js';
 import type { User } from '../../actions/authentication';
-import { QueryContext } from './query/QueryController';
-import Query, { withQuery } from './query/Query';
 import { actions } from 'astro:actions';
-import LoginEditor from './user/LoginEditor';
-import Overlay from './generic/Overlay';
+import LoginEditor from './LoginEditor';
+import { QueryContext } from '@glowman554/base-components/src/query/QueryController';
+import Query, { withQuery } from '@glowman554/base-components/src/query/Query';
+import Overlay from '@glowman554/base-components/src/generic/Overlay';
 
 export interface Props {
     check: (u: User) => boolean;
