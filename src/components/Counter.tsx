@@ -10,12 +10,16 @@ export default function Counter(props: { children?: JSX.Element }) {
     return (
         <QueryController>
             <Internal check={(u) => u.administrator} />
-            <div class="counter">
-                <button onClick={subtract}>-</button>
+            <div class="section">
+                <button class="button" onClick={subtract}>
+                    -
+                </button>
                 <pre>{count()}</pre>
-                <button onClick={add}>+</button>
+                <button class="button" onClick={add}>
+                    +
+                </button>
             </div>
-            <div class="counter-message">{props.children}</div>
+            <div>{props.children}</div>
         </QueryController>
     );
 }
